@@ -6,22 +6,31 @@ const readline = require('readline').createInterface({
     output: process.stdout
 });
 
+const newFile = fs.createWriteStream('text.txt')
 
-fs.open('text.txt', 'w', (err) => {
-    if (err) throw err;
+readline.on('SIGINT', () => {
+    console.log("Файл записан! Всего хорошего!");
+    readline.close();
 })
 
-readline.question('Введите текст для записи:\n', (data) => {
-    console.log(data);
-    //readline.close();
 
+readline.question('Здравствуйте! Введите текст для записи:\n', (data) => {
+    
     if (data === 'exit') {
+        console.log('Нет данных для записи! Всего хорошего!')
         readline.close()
-    } else {
-        
-    fs.appendFile('text.txt', data, (err) => {
-        if (err) throw err;
-    })
+    } else {        
+        newFile.write(data + '\n');
+        readline.on('line', (newData) => {
+            if (newData === 'exit') {
+                console.log("Данные записаны! Всего хорошего!");
+                readline.close()
+            } else {
+                newFile.write(newData + '\n');
+            }
+        })
     }
 })
+
+
 
