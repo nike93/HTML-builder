@@ -5,8 +5,8 @@ const readline = require('readline').createInterface({
     input: process.stdin,
     output: process.stdout
 });
-
-const newFile = fs.createWriteStream('text.txt')
+const link = path.join(__dirname, 'text.txt')
+const newFile = fs.createWriteStream(link);
 
 readline.on('SIGINT', () => {
     console.log("Файл записан! Всего хорошего!");
@@ -17,14 +17,14 @@ readline.on('SIGINT', () => {
 readline.question('Здравствуйте! Введите текст для записи:\n', (data) => {
     
     if (data === 'exit') {
-        console.log('Нет данных для записи! Всего хорошего!')
-        readline.close()
+        console.log('Нет данных для записи! Всего хорошего!');
+        readline.close();
     } else {        
         newFile.write(data + '\n');
         readline.on('line', (newData) => {
             if (newData === 'exit') {
                 console.log("Данные записаны! Всего хорошего!");
-                readline.close()
+                readline.close();
             } else {
                 newFile.write(newData + '\n');
             }
