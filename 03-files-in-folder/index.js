@@ -12,7 +12,7 @@ fs.readdir(folderLink, {withFileTypes: true}, (err, el) => {
         el.forEach((res) => {
             if(res.isFile()) {
                 arr.push(res.name);
-                resultArr.push((res.name).replace('-') + '-');
+                resultArr.push((res.name).replace('.', '-') + '-');
             }
         })
     }
